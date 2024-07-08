@@ -4,7 +4,6 @@
 
     ```sh
     git clone https://github.com/veronika-kalaskova/EBC-VWA-project.git
-    cd EBC-VWA-project
     ```
 2. Create a virtual environment:
     ```sh
@@ -19,3 +18,6 @@
     ```sh
     python app.py
     ```
+# Technologies learnt
+- Flask (Blueprints, Flask Sessions, Flask Redirects and URL Handling, Decorators)
+- sqlite3
