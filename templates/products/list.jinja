@@ -1,0 +1,60 @@
+{% extends '__main.jinja' %}
+
+{% block content %}
+    <section>
+
+        {% if session['authenticated'] and session['role'] == 'admin' %}
+            <div>
+                <a href="{{url_for('products.new')}}" class='floating-button'>+</a>
+            </div>
+        {% endif%}
+
+        {% if category == None %}
+            <h2>All Products</h2>
+        {% else %}
+            <h2>{{ category.name }}</h2>
+        {% endif %}
+
+        <p>
+            Filter:
+            <a href="?category_id={{category_id}}" class="{{ 'active' if price_limit == None else '' }}">All</a> |
+            <a href="?category_id={{category_id}}&price_limit=20" class="{{ 'active' if price_limit == 20 else '' }}">Under 20 USD</a> |
+            <a href="?category_id={{category_id}}&price_limit=100" class="{{ 'active' if price_limit == 100 else '' }}">Under 100 USD</a>
+        </p>
+
+        <p>
+            <form method="get">
+                <input type="text" name="search" placeholder="Search products..."  min="2" max="50" value="{{search if search != None else ''}}">
+                <input type="submit" value="Search">
+            </form>
+        </p>
+
+        {% if price_limit != None %}
+            <p><i>
+                Showing products in range 0-{{ price_limit }} USD.
+            </i></p>
+        {% endif %}
+
+        {% if products | length == 0 %}
+            <div>Žádné produkty.</div>
+        {% else %}
+            <div class="side-by-side">
+                {% for product in products %}
+                    <div class="product-block">
+                        <h3 class="product-title">{{ product.name }}</h3>
+                        <img class="product-img" src="{{ product.img }}" alt="{{ product.name }}">
+                        <div class="product-info">
+                            <div>${{ product.price }}</div>
+                            <div class="product-actions">
+                                <a href="#" class="icon-info-sign"></a>
+                                <a href="{{ url_for('products.delete', id=product.id)}}" class="fas fa-trash"></a>
+                            </div>
+                        </div>
+                        <a href="#" class="product-cart"><i class="fas fa-shopping-cart"></i> Add to cart</a>
+                    </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+   </section>
+{% endblock %}

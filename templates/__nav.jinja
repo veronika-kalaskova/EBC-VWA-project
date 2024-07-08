@@ -1,0 +1,38 @@
+{% block nav %}
+    <div
+            class="hamburger"
+            onclick="document.getElementById('nav').classList.toggle('visible')"
+    >
+        <div class="mobile-nav">
+            <div class="logo">
+                <a href="{{ url_for('homepage.view_homepage' ) }}"><span class="nav-text">Nástěnka</span></a>
+            </div>
+            <i class="fa-solid fa-bars"></i>
+        </div>
+
+    </div>
+    <nav id="nav">
+        <div class="logo">
+            <a href="{{ url_for('homepage.view_homepage' ) }}"><span class="nav-text">Nástěnka</span></a>
+        </div>
+        {% if session['authenticated'] %}
+            <div class="links">
+                <a href="{{ url_for('homepage.view_homepage' ) }}"><span class="nav-text">Domov</span></a>
+                <a href="{{ url_for('users-overview.view_users_overview' ) }}"><span
+                        class="nav-text">Přehled uživatelů</span></a>
+                <a href="{{ url_for('group-setting.view_group_setting' ) }}"><span
+                        class="nav-text">Správa</span></a>
+                <a href="{{ url_for('users-profile.view_users_profile' ) }}"><span class="nav-text">Můj účet</span></a>
+                {% if session['authenticated'] %}
+                    <a href="{{ url_for('auth.signout') }}"><span
+                            class="nav-button">Odhlášení {{ session['jmeno'] }}</span></a>
+                {% else %}
+                    <a href="{{ url_for('auth.sign_in') }}"><span class="nav-button">Přihlášení</span></a>
+                {% endif %}
+            </div>
+        {% else %}
+            <a href="{{ url_for('auth.sign_in') }}"><span class="nav-button">Přihlášení</span></a>
+        {% endif %}
+    </nav>
+
+{% endblock %}

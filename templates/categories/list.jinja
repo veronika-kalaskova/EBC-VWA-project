@@ -1,0 +1,16 @@
+{% extends '__main.jinja' %}
+
+{% block content %}
+    <section>
+        <h2>Categories</h2>
+
+        <ul>
+            {% for category in categories %}
+            <li>
+                <a href="{{url_for('products.list', category_id=category.id)}}">{{ category.name }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+
+   </section>
+{% endblock %}

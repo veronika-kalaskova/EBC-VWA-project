@@ -1,0 +1,165 @@
+{% extends '/__main.jinja' %}
+
+{% block content %}
+    {% if session['authenticated'] %}
+        <div class="homepage-container">
+            <div class="prispevky-container">
+                <div class="mb">
+                    <h2>Přidej příspěvek:</h2>
+                    <form action="" method="post">
+                        <input type="hidden" name="email" value="{{ session['email'] }}">
+
+                        {% if session['authenticated'] and session['role_id'] <= 2 %}
+                            <div class="mb">
+                                    <p class="input-desc">Jen pro vedoucí pracovníky </p>
+                                    <input onclick="document.getElementById('viditelnost-role').classList.toggle('visible-inputs'); document.getElementById('viditelnost-oddeleni').classList.toggle('visible-inputs'); document.getElementById('viditelnost-skupiny').classList.toggle('visible-inputs') " type="checkbox" name="vedouci_pracovnici" value="1">
+                                </div>
+                            <div class="prispevek-inputs">
+                                <div>
+                                    <p class="input-desc">Počet dní priority:</p>
+                                    <input id="priorita" type="number" name="priorita" value="0" max="3" min="0" style="width: 100%">
+                                </div>
+                                <div id="viditelnost-skupiny">
+                                    <p class="input-desc">Viditelnost pro určité skupiny:</p>
+                                    {#                                {% for skupina in skupiny %}#}
+                                    {#                                    <input value="{{ skupina.skupina_id }}" type="checkbox">{{ skupina.nazev }}#}
+                                    {#                                {% endfor %}#}
+                                    <select id="role" name="skupina[]" multiple>
+                                        {% for skupina in skupiny %}
+                                            <option value="{{ skupina.skupina_id }}">{{ skupina.nazev }}</option>
+                                        {% endfor %}
+                                    </select>
+
+                                </div>
+                                <div id="viditelnost-oddeleni">
+                                    <p class="input-desc">Viditelnost pro určité oddělení:</p>
+                                    {#                                {% for skupina in skupiny %}#}
+                                    {#                                    <input value="{{ skupina.skupina_id }}" type="checkbox">{{ skupina.nazev }}#}
+                                    {#                                {% endfor %}#}
+                                    <select id="role" name="oddeleni[]" multiple>
+                                        {% for oddeleni in oddeleni %}
+                                            <option value="{{ oddeleni.oddeleni_id }}">{{ oddeleni.nazev }}</option>
+                                        {% endfor %}
+                                    </select>
+
+                                </div>
+
+                                <div id="viditelnost-role">
+                                    <p class="input-desc">Viditelnost pro určité role:</p>
+                                    <select id="role" name="role[]" multiple>
+                                        {% for role in role %}
+                                            <option value="{{ role.role_id }}">{{ role.nazev }}</option>
+                                        {% endfor %}
+                                    </select>
+
+                                </div>
+
+
+                            </div>
+                        {% endif %}
+                        {% if session['authenticated'] and session['role_id'] == 3 %}
+                            <div class="prispevek-inputs">
+                                <p class="input-desc">Viditelné pro firemní oddělení</p>
+                                <input type="checkbox" name="firemni_oddeleni" value="1">
+
+                            </div>
+                        {% endif %}
+
+
+                        <div class="input-container">
+                            <textarea placeholder="Obsah příspěvku" class="prispevek-input"
+                                      name="obsah_prispevku"></textarea>
+                            <button type="submit" class="submit-btn send"><img
+                                    src="{{ url_for("static", filename="img/send.svg") }}"
+                                    alt="Odeslat"></button>
+                        </div>
+                    </form>
+                </div>
+
+                <h2>Příspěvky:</h2>
+                <div class="prispevek-inputs">
+                    {% if session['authenticated'] and session['role_id'] <= 2 %}
+                        <p>Filter viditelnosti:</p>
+                        <select id="role" name="role">
+                            <option value="role">Role</option>
+                            <option value=""></option>
+                            <option value=""></option>
+                        </select>
+                    {% endif %}
+                </div>
+                {% if prispevky | length == 0 %}
+                    <p class="no-prispevky">Nejsou k dispozici žádné příspěvky.</p>
+                {% endif %}
+                {% for prispevek in prispevky %}
+                    <div class="prispevek">
+
+                        <form method="post" action="{{ url_for('homepage.smaz_prispevek') }}"
+                              class="prispevek-text-container">
+                            <div class="mobile-header">
+                                {% if prispevek.foto %}
+                                    <img class="avatar" src="{{ prispevek.foto }}" alt="avatar">
+                                {% else %}
+                                    <img class="large-avatar" src="{{ url_for("static", filename="img/avatar.svg") }}"
+                                         alt="avatar">
+                                {% endif %}
+                                <p class="user-jmeno">{{ prispevek.jmeno }} {{ prispevek.prijmeni }}</p>
+                            </div>
+                            <input type="hidden" name="id_prispevku" value="{{ prispevek.prispevek_id }}">
+                            {% if prispevek.delka_priority is not none and prispevek.delka_priority > 0 %}
+                                <div class="flex priorita">
+                                <img class="avatar" src="{{ url_for("static", filename="img/star.svg") }}"
+                                         alt="avatar">
+                                <span>Priorita: {{ prispevek.delka_priority  }}</span>
+                                </div>
+
+                            {% endif %}
+                            <p class="prispevek-text">{{ prispevek.obsah }}</p>
+
+                            {% if session['authenticated'] and session['role_id'] <= 3 %}
+                                <button type="submit" class="delete-user-btn main-delete-user-btn">Smazat příspěvek
+                                </button>
+                            {% endif %}
+                        </form>
+
+                        <div class="user-prispevek">
+                            {% if prispevek.foto %}
+                                <img class="avatar" src="{{ prispevek.foto }}" alt="avatar">
+                            {% else %}
+                                <img class="large-avatar" src="{{ url_for("static", filename="img/avatar.svg") }}"
+                                     alt="avatar">
+                            {% endif %}
+                            <p class="user-jmeno">{{ prispevek.jmeno }} {{ prispevek.prijmeni }}</p>
+                        </div>
+
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% if session['authenticated'] %}
+                <div class="user-container border-light">
+                    <div class="user-center">
+                        {% if session['foto'] %}
+                            <img class="avatar" src="{{ session['foto'] }}" alt="avatar">
+                        {% else %}
+                            <img class="large-avatar" src="{{ url_for("static", filename="img/avatar.svg") }}"
+                                 alt="avatar">
+                        {% endif %}
+                        <h2>{{ session['jmeno'] }} {{ session['prijmeni'] }}</h2>
+                        <p class="user-role">{{ session['role'] }}</p>
+                        <p>Oddělení: {{ session['oddeleni'] }} </p>
+                        <p>Skupina: {{ session['skupina'] }} </p>
+
+                    </div>
+                    <div class="user-center">
+                        <a href="{{ url_for('users-profile.view_users_profile' ) }}" class="text-center user-seznam">Správa
+                            profilu</a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    {% else %}
+
+        <h2 class="text-center">Pro zobrazení příspěvků musíte být přihlášení.</h2>
+
+    {% endif %}
+{% endblock %}

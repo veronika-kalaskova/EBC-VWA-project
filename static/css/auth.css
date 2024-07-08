@@ -1,0 +1,47 @@
+.auth-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 2rem;
+    gap: 15px;
+
+}
+
+.submit-btn {
+    font-size: 1em;
+}
+
+.submit-btn-container {
+    text-align: center;
+    margin-top: 1em;
+}
+
+.register-text {
+    text-decoration: none;
+    color: var(--darker-blue);
+}
+
+.auth-section input {
+    width: 100%;
+}
+
+.form-section {
+    width: 250px;
+}
+
+.form-section h1 {
+    text-align: center;
+}
+
+.errors, .flashes {
+    text-align: left;
+    padding: 0;
+    margin-top: 1em;
+}
+
+.errors li, .flashes li {
+    list-style: none;
+    color: var(--red);
+}
+

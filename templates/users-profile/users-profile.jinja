@@ -1,0 +1,62 @@
+{% extends '/__main.jinja' %}
+{% from 'macros/form_field.jinja' import render_field with context %}
+
+{% block content %}
+
+    <div class="user-profile-wrapper">
+        <div class="user-wrapper">
+            <div class="user-profile border">
+                <div class="user-center">
+                    {% if session['foto'] %}
+                        <img class="avatar" src="{{ session['foto'] }}" alt="avatar">
+                    {% else %}
+                        <img class="large-avatar" src="{{ url_for("static", filename="img/avatar.svg") }}" alt="avatar">
+                    {% endif %}
+
+                    <h2 class="text-center">{{ session['jmeno'] }} {{ session['prijmeni'] }}</h2>
+                    <p class="user-role">{{ session['role'] }}</p>
+                    <p>Oddělení: {{ session['oddeleni'] }}</p>
+                    <p>Skupina: {{ session['skupina'] }}</p>
+                </div>
+                <div class="user-center">
+                    {#                    <a class="text-center user-seznam"#}
+                    {#                       onclick="document.getElementById('edit-info').classList.toggle('edit-info-display')">Změna#}
+                    {#                        údajů</a>#}
+                    <a class="text-center user-seznam" onclick="document.getElementById('edit-password').classList.toggle('edit-password-display')">Změna
+                        hesla</a>
+                </div>
+            </div>
+        </div>
+        {#        <div class="edit-info-container edit-info-display" id="edit-info">#}
+        {#            <form action="" method="post" class="edit-form">#}
+        {##}
+        {#                <div>#}
+        {#                    <h2 class="edit-header">Změna osobních údajů</h2>#}
+        {#                    {{ render_field(form.role) }}#}
+        {#                    {{ render_field(form.skupina) }}#}
+        {#                    {{ render_field(form.oddeleni) }}#}
+        {#                </div>#}
+        {##}
+        {##}
+        {#                <button type="submit" class="add-btn mt">Potvrdit změny</button>#}
+        {#            </form>#}
+        {#        </div>#}
+        <div class="edit-info-container edit-password-display" id="edit-password">
+            <form action="{{ url_for('users-profile.editPsw') }}" method="post" class="edit-form">
+
+                <div>
+                    {% for udaj in udaje %}
+                        <h2 class="edit-header">Změna hesla</h2>
+                        <input type="hidden" name="id_uzivatele" value="{{ udaj['uzivatel_id'] }}">
+                        {{ render_field(form.password) }}
+                    {% endfor %}
+                </div>
+
+                <button type="submit" class="add-btn mt">Potvrdit změny</button>
+            </form>
+        </div>
+    </div>
+
+
+
+{% endblock %}

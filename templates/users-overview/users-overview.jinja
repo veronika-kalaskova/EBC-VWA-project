@@ -1,0 +1,106 @@
+{% extends '/__main.jinja' %}
+
+{% block content %}
+    <section>
+        <h1>Přehled všech uživatelů</h1>
+          {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul class=flashes>
+                            {% for message in messages %}
+                                <li>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+        <div class="content border">
+            {% for uzivatel in uzivatele %}
+                <form method="post">
+
+                    <div class="mobile-useroverview">
+                        <div class="flex header-overview">
+                            {% if uzivatel['foto'] %}
+                                <a href="{{ url_for('users-profile.edit_users_profile', user_id=uzivatel['uzivatel_id']) }}">
+                                    <img class="avatar" src="{{ uzivatel['foto'] }}" alt="avatar">
+                                </a>
+
+                            {% else %}
+                                <a href="{{ url_for('users-profile.edit_users_profile', user_id=uzivatel['uzivatel_id']) }}">
+                                    <img class="avatar" src="{{ url_for("static", filename="img/avatar.svg") }}"
+                                         alt="avatar">
+                                </a>
+                            {% endif %}
+                            <div class="user-info-container">
+                                <p class="user-info-header">Jméno uživatele: </p>
+                                <p>{{ uzivatel['jmeno'] }} {{ uzivatel['prijmeni'] }}</p>
+                            </div>
+                        </div>
+
+                        <div class="flex">
+                            <div class="user-info-container">
+                                <p class="user-info-header">Skupina:</p>
+                                <p>{{ uzivatel['skupina_nazev'] }}</p>
+                            </div>
+                            <div class="user-info-container">
+                                <p class="user-info-header">Oddělení:</p>
+                                <p>{{ uzivatel['oddeleni_nazev'] }}</p>
+                            </div>
+                        </div>
+
+                        <div class="flex end-useroverview">
+                            <div class="user-info-container">
+                            <p class="user-info-header">Role:</p>
+                            <p>{{ uzivatel.role_nazev }}</p>
+                        </div>
+
+                        {% if session['role_id'] <= 2 %}
+                            <input type="hidden" name="id_uzivatele" value="{{ uzivatel['uzivatel_id'] }}">
+                            <button type="submit" class="delete-user-btn">Smazat uživatele</button>
+                        {% endif %}
+                        </div>
+
+                    </div>
+
+
+                    <div class="user pc-useroverview">
+                        <div>
+                            {% if uzivatel['foto'] %}
+                                <a href="{{ url_for('users-profile.edit_users_profile', user_id=uzivatel['uzivatel_id']) }}">
+                                    <img class="avatar" src="{{ uzivatel['foto'] }}" alt="avatar">
+                                </a>
+
+
+                            {% else %}
+                                <a href="{{ url_for('users-profile.edit_users_profile', user_id=uzivatel['uzivatel_id']) }}">
+                                    <img class="avatar" src="{{ url_for("static", filename="img/avatar.svg") }}"
+                                         alt="avatar">
+                                </a>
+
+                            {% endif %}
+                        </div>
+                        <div class="user-info-container">
+                            <p class="user-info-header">Jméno uživatele:</p>
+                            <p>{{ uzivatel['jmeno'] }} {{ uzivatel['prijmeni'] }}</p>
+                        </div>
+                        <div class="user-info-container">
+                            <p class="user-info-header">Skupina:</p>
+                            <p>{{ uzivatel['skupina_nazev'] }}</p>
+                        </div>
+                        <div class="user-info-container">
+                            <p class="user-info-header">Oddělení:</p>
+                            <p>{{ uzivatel['oddeleni_nazev'] }}</p>
+                        </div>
+                        <div class="user-info-container">
+                            <p class="user-info-header">Role:</p>
+                            <p>{{ uzivatel.role_nazev }}</p>
+                        </div>
+
+                        {% if session['role_id'] <= 2 %}
+                            <input type="hidden" name="id_uzivatele" value="{{ uzivatel['uzivatel_id'] }}">
+                            <button type="submit" class="delete-user-btn">Smazat uživatele</button>
+                        {% endif %}
+                    </div>
+                </form>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

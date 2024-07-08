@@ -1,0 +1,82 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 30px;
+}
+
+.user {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.avatar {
+    width: 35px;
+    height: 35px;
+}
+
+.users p {
+    font-size: 1rem;
+}
+
+.delete-user-btn {
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    background: var(--light-color);
+    color: var(--red);
+    font-weight: 700;
+    padding: 0;
+    text-align: left;
+}
+
+.delete-user-btn:hover {
+    color: var(--darker-red);
+}
+
+.user-info-header {
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    color: var(--darker-blue);
+}
+
+.user-info-container {
+    min-width: 150px;
+}
+
+.mobile-useroverview {
+    display: none;
+}
+
+.header-overview {
+    gap: 1em;
+}
+
+@media screen and (max-width: 850px) {
+    .pc-useroverview {
+        display: none;
+    }
+
+    .mobile-useroverview {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5em;
+    }
+
+    .user {
+        flex-direction: column;
+    }
+
+    .user-info-header {
+        margin-bottom: 0;
+    }
+
+    .end-useroverview .delete-user-btn {
+        text-align: right;
+    }
+
+    .border {
+        padding: 1.5em;
+    }
+}

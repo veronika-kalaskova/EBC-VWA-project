@@ -1,0 +1,5 @@
+Flask~=2.2.2
+click~=8.0.3
+Flask-WTF
+email_validator
+bcrypt

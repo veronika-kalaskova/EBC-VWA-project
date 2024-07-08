@@ -1,0 +1,102 @@
+{% extends '/__main.jinja' %}
+
+{% block content %}
+    <section>
+    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul class=flashes>
+                            {% for message in messages %}
+                                <li>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+        <div class="group-setting-header">
+            <h1>Přehled všech skupin</h1>
+            <button class="add-btn mb"
+                    onclick="document.getElementById('group-setting-skupina').classList.toggle('inputs-visible')">Zobraz
+                přidání skupiny
+            </button>
+        </div>
+
+        <div class="mb inputs-visible" id="group-setting-skupina">
+            <form action="{{ url_for('group-setting.pridej_skupinu') }}" method="POST" class="group-setting-inputs">
+                <label>Název skupiny: </label>
+                {{ formSkupina.name(placeholder="Název skupiny") }}
+                <label>Skupiná spádá do oddělení:</label>
+                <select id="oddeleni-select" name="oddeleni">
+                    {% for oddeleni in oddeleni %}
+                        <option value="{{ oddeleni.oddeleni_id }}">{{ oddeleni.nazev }}</option>
+                    {% endfor %}
+                </select>
+                <label>E-mail pracovníka </label>
+                {{ formSkupina.email(placeholder="E-mail pracovníka") }}
+
+                <button type="submit" class="add-btn">Přidat skupinu</button>
+            </form>
+        </div>
+
+
+        <div class="content border mb">
+            {% for skupina in skupiny %}
+                <form action="{{ url_for('group-setting.smazat_skupinu') }}" method="post" >
+                    <div class="group">
+                        <div>
+                            <p class="user-info-header">Název skupiny: </p>
+                            <p>{{ skupina['nazev'] }}</p>
+                        </div>
+                        <div>
+                            <p class="user-info-header">Jméno vedoucího </p>
+                            <p>{{ skupina['jmeno'] }} {{ skupina['prijmeni'] }}</p>
+                        </div>
+                         <div>
+                            <p class="user-info-header">Pod oddělením </p>
+                            <p>{{ skupina['nazev_oddeleni'] }}</p>
+
+                        </div>
+
+                        <input type="hidden" name="skupina_id" value="{{ skupina['skupina_id'] }}">
+                        <button type="submit" class="delete-user-btn">Smazat skupinu</button>
+
+                    </div>
+                </form>
+            {% endfor %}
+        </div>
+        <div class="group-setting-header">
+            <h1>Přehled všech oddělení</h1>
+            <button class="add-btn mb"
+                    onclick="document.getElementById('group-setting-oddeleni').classList.toggle('inputs-visible')">Zobraz
+                přidání oddělení
+            </button>
+        </div>
+
+        <div class="mb inputs-visible" id="group-setting-oddeleni">
+            <form action="{{ url_for('group-setting.pridej_oddeleni') }}" method="POST" class="group-setting-inputs">
+                <label>Název oddělení: </label>
+                {{ formOddeleni.name(placeholder="Název oddělení") }}
+                <label>E-mail pracovníka </label>
+                {{ formOddeleni.email(placeholder="E-mail pracovníka") }}
+                <button type="submit" class="add-btn">Přidat oddělení</button>
+            </form>
+        </div>
+        <div class="content border">
+            {% for od in oddeleni %}
+                <form action="{{ url_for('group-setting.smazat_oddeleni') }}" method="post" >
+                    <div class="group">
+                        <div>
+                            <p class="user-info-header">Název oddělení: </p>
+                            <p>{{ od['nazev'] }}</p>
+                        </div>
+                        <div>
+                            <p class="user-info-header">Jméno manažera </p>
+                            <p>{{ od['jmeno'] }} {{ od['prijmeni'] }}</p>
+                        </div>
+                        <input type="hidden" name="oddeleni_id" value="{{ od['oddeleni_id'] }}">
+                        <button type="submit" class="delete-user-btn">Smazat oddělení</button>
+
+                    </div>
+                </form>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

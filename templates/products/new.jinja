@@ -1,0 +1,16 @@
+{% extends '__main.jinja' %}
+{% from 'macros/form_field.jinja' import render_field with context %}
+
+{% block content %}
+  <section>
+    <form method=post>
+        <dl>
+          {{ render_field(form.name) }}
+          {{ render_field(form.price) }}
+          {{ render_field(form.img) }}
+          {{ render_field(form.category_id) }}
+        </dl>
+        <input type="submit" value=Submit>
+      </form>
+  </section>
+{% endblock %}

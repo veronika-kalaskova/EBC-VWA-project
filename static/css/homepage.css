@@ -1,0 +1,203 @@
+.homepage-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 2em;
+}
+
+.prispevky-container {
+    flex: 1 0;
+    margin-bottom: 3em;
+}
+
+.send {
+    cursor: pointer;
+}
+
+.prispevek-input {
+    flex: 1 0;
+}
+
+.input-container {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 1em;
+}
+
+.input-container .submit-btn {
+    background: none;
+    border: none;
+}
+
+.prispevek-inputs {
+    display: flex;
+    gap: 2em;
+    margin-bottom: 1em;
+    align-items: flex-start;
+}
+
+.prispevek {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px var(--darker-blue) solid;
+    padding: 2em 4em;
+    border-radius: 10px;
+    gap: 4em;
+    margin-bottom: 2em;
+}
+
+.prispevek-text-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 190px;
+}
+
+.prispevek-text {
+    max-width: 40vw;
+    margin-bottom: 0.5em;
+    word-wrap: break-word;
+}
+
+.priorita {
+    align-items: center;
+    gap: 1em;
+}
+
+.user-prispevek {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px var(--darker-blue) solid;
+    padding: 2em;
+    border-radius: 10px;
+    gap: 10px;
+    height: 12em;
+    width: 12em;
+}
+
+.input-desc {
+    margin-bottom: 0.5em;
+}
+
+.user-jmeno {
+    color: var(--darker-blue);
+    font-weight: bold;
+    text-align: center;
+}
+
+.user-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 300px;
+    height: 600px;
+}
+
+.user-role {
+    border: 2px var(--darker-blue) solid;
+    padding: 0.5em;
+    border-radius: 10px;
+}
+
+.user-info {
+    display: flex;
+}
+
+.user-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-seznam {
+    padding: 0.5em 2.5em;
+    color: white;
+    background: var(--darker-blue);
+    border-radius: 10px;
+    width: 100%;
+}
+
+.user-seznam:hover {
+    background: var(--dark-color);
+}
+
+.user-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 300px;
+    height: 450px;
+}
+
+.user-profil {
+    border: 2px var(--darker-blue) solid;
+    padding: 0.5em 2.5em;
+    color: var(--darker-blue);
+    background: var(--light-color);
+    border-radius: 10px;
+    width: 100%;
+}
+
+.user-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.no-prispevky {
+    color: var(--darker-blue);
+    font-weight: 700;
+}
+
+.mobile-header {
+    display: none;
+}
+
+
+@media screen and (max-width: 1200px) {
+    .user-container {
+        display: none;
+    }
+
+    .input-container {
+        max-width: 90vw;
+    }
+}
+
+.visible-inputs {
+    display: none;
+}
+
+@media screen and (max-width: 600px) {
+    .prispevek-inputs {
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .user-prispevek {
+        display: none;
+    }
+
+    .prispevek {
+        max-width: 90vw;
+        padding: 1.5em;
+    }
+
+    .prispevek-text {
+        max-width: 70vw;
+    }
+
+    .mobile-header {
+        display: flex;
+        gap: 1em;
+        align-items: center;
+    }
+}

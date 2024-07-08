@@ -1,0 +1,15 @@
+<footer>
+    <h3>Rychlé odkazy</h3>
+    <div class="footer-links">
+        {% if session['authenticated'] %}
+            <a href="{{ url_for('homepage.view_homepage' ) }}"><span class="footer-text">Domov</span></a>
+            <a href="{{ url_for('users-overview.view_users_overview' ) }}"><span
+                    class="footer-text">Přehled uživatelů</span></a>
+            <a href="{{ url_for('group-setting.view_group_setting' ) }}"><span
+                        class="nav-text">Správa</span></a>
+            <a href="{{ url_for('users-profile.view_users_profile' ) }}"><span class="footer-text">Můj účet</span></a>
+        {% else %}
+            <a href="{{ url_for('auth.sign_in') }}"><span class="nav-button">Přihlášení</span></a>
+        {% endif %}
+    </div>
+</footer>

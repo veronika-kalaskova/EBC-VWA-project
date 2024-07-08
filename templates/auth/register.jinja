@@ -1,0 +1,34 @@
+{% extends '__main.jinja' %}
+{% from 'macros/form_field.jinja' import render_field with context %}
+
+{% block content %}
+
+    <section class="auth-section">
+    <div class="form-section">
+        <h1>Zaregistrovat se</h1>
+        <form method=post>
+            <dl>
+                {{ render_field(form.email) }}
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul class=flashes>
+                            {% for message in messages %}
+                                <li>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+                {{ render_field(form.name) }}
+                {{ render_field(form.surname) }}
+                {{ render_field(form.password) }}
+                {{ render_field(form.img) }}
+            </dl>
+            <div class="submit-btn-container">
+                <input class="submit-btn" type="submit" value="Zaregistrovat se">
+            </div>
+
+        </form>
+    </div>
+
+    </section>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends '/__main.jinja' %}
+{% from 'macros/form_field.jinja' import render_field with context %}
+
+{% block content %}
+    <div class="user-profile-wrapper">
+        <div class="user-wrapper">
+            <div class="user-profile border">
+                <div class="user-center">
+                    {% for udaj in udaje %}
+                        {% if udaj['foto'] %}
+                            <img class="avatar" src="{{ udaj['foto'] }}" alt="avatar">
+                        {% else %}
+                            <img class="large-avatar" src="{{ url_for("static", filename="img/avatar.svg") }}"
+                                 alt="avatar">
+                        {% endif %}
+
+                        <h2 class="text-center"> {{ udaj['jmeno'] }} {{ udaj['prijmeni'] }} </h2>
+
+                        <p class="user-role">{{ udaj['role'] }}</p>
+                        <p>Oddělení: {{ udaj['oddeleni'] }}</p>
+                        <p>Skupina: {{ udaj['Skupina'] }}</p>
+                    {% endfor %}
+                </div>
+                {% if session['authenticated'] and session['role_id'] <= 2 %}
+                    <div class="user-center">
+                        <a class="text-center user-seznam"
+                           onclick="document.getElementById('edit-info').classList.toggle('edit-info-display')">Změna
+                            údajů</a>
+                        <a class="text-center user-seznam"
+                           onclick="document.getElementById('edit-picture').classList.toggle('edit-picture-display')">Změna
+                            obrázku</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="edit-info-container edit-info-display" id="edit-info">
+            <form action="{{ url_for('users-profile.editProfile') }}" method="post" class="edit-form">
+
+                <div>
+                    {% for udaj in udaje %}
+                        <h2 class="edit-header">Změna osobních údajů</h2>
+                        <input type="hidden" name="id_uzivatele" value="{{ udaj['uzivatel_id'] }}">
+                        {{ render_field(form.role) }}
+                        {{ render_field(form.skupina) }}
+                        {# {{ render_field(form.oddeleni) }} #}
+                    {% endfor %}
+                </div>
+
+
+                <button type="submit" class="add-btn mt">Potvrdit změny</button>
+            </form>
+        </div>
+        <div class="edit-info-container edit-picture-display" id="edit-picture">
+            <form action="{{ url_for('users-profile.editImg') }}" method="post" class="edit-form">
+
+                <div>
+                    {% for udaj in udaje %}
+                        <h2 class="edit-header">Změna obrázku</h2>
+                        <input type="hidden" name="id_uzivatele" value="{{ udaj['uzivatel_id'] }}">
+                        {{ render_field(form.img) }}
+                    {% endfor %}
+                </div>
+
+                <button type="submit" class="add-btn mt">Potvrdit změny</button>
+            </form>
+        </div>
+    </div>
+
+
+
+{% endblock %}
