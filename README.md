@@ -21,3 +21,5 @@
 # Technologies learnt
 - Flask (Blueprints, Flask Sessions, Flask Redirects and URL Handling, Decorators)
 - sqlite3
+
+This is a collaborative project.
